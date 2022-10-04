@@ -25,16 +25,17 @@ import com.sogoamobile.dvtweatherapp.R
 import com.sogoamobile.dvtweatherapp.adapter.CitiesForecastAdapter
 import com.sogoamobile.dvtweatherapp.adapter.WeatherForecastAdapter
 import com.sogoamobile.dvtweatherapp.common.Common
+import com.sogoamobile.dvtweatherapp.data.cities.CitiesTable
 import com.sogoamobile.dvtweatherapp.data.cities.CitiesViewModel
 import com.sogoamobile.dvtweatherapp.databinding.FragmentHomeBinding
 import com.sogoamobile.dvtweatherapp.model.WeatherForecastResult
 import com.sogoamobile.dvtweatherapp.network.IOpenWeatherMap
 import com.sogoamobile.dvtweatherapp.network.RetrofitClient
+import com.sogoamobile.dvtweatherapp.presentation.fragments.WeatherInfoFragment.Companion.city
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Retrofit
-import java.lang.String
 import java.util.*
 import kotlin.Boolean
 import kotlin.toString
@@ -62,6 +63,15 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
 
     private lateinit var citiesViewModel: CitiesViewModel
 
+    private var citiesList:List<CitiesTable> = emptyList()
+
+    // current weather info
+    var cityId =  0
+    var cityName =  ""
+    var description = ""
+    var refreshTime: Long = 0
+    var temperature: Int =  0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         compositeDisposable = CompositeDisposable()
@@ -84,12 +94,25 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
 
         //CitiesViewModel
         citiesViewModel = ViewModelProvider(this).get(CitiesViewModel::class.java)
-        val citiesList = citiesViewModel.readAllData.value ?: emptyList()
+//        citiesList = citiesViewModel.readAllData.value ?: emptyList()
 
-        citiesViewModel.readAllData.observe(viewLifecycleOwner, androidx.lifecycle.Observer { cities ->
+        citiesViewModel.readAllData.observe(this.viewLifecycleOwner) { cities ->
+            Log.d("TAG_cities_list_db", cities.toString())
+            citiesList = cities
             adapter.setData(cities)
-            Log.d("TAG_Test", "DB List Home  $cities")
-        })
+
+            // check if db has current weather info
+            if(citiesList.isEmpty()){
+                // fetch current weather
+                getCurrentWeatherInformation()
+            }else{
+                // display current weather info from db
+                citiesViewModel.getCity(Common().getCityID(requireContext())).observe(this.viewLifecycleOwner) { city ->
+                    Log.d("TAG_city_db", city.toString())
+                    updateViews(city.cityName, city.description, city.temperature, city.refreshTime)
+                }
+            }
+        }
 
         // recycler view
          adapter =
@@ -173,14 +196,38 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
 //            searchTab.visibility = View.GONE
 //            cdvSearchView.visibility = View.VISIBLE
 //        }
-        // get current weather
-        getCurrentWeatherInformation()
+
        //  get 5 day forecast
-        getForecastWeatherInformation()
+//        getForecastWeatherInformation()
         return view
     }
 
+    private fun updateViews(cityName: String, description: String, temperature: Int, refreshTime: Long ){
+
+        mTxtCity?.text = cityName
+        mCity = mTxtCity?.text.toString()
+        mTxtWeatherDesc?.text = description
+        mTxtTemp?.text = "$temperature °C"
+        //date
+        mTxtDateTime!!.text =
+            getString(R.string.last_refresh, Common().convertUnixToHour(refreshTime));
+        // change background image
+        binding.imgBg1.setBackgroundResource(
+            Common().changeBackgroundImage(
+                description
+            )
+        )
+        // change background color
+        binding.constraintLayout.setBackgroundColor(
+            Common().changeBackgroundColor(
+                description
+            )
+        )
+    }
+
+
     private fun getCurrentWeatherInformation() {
+        loading?.visibility = View.VISIBLE
         compositeDisposable?.add(
             mService!!.getWeatherByLatLng(
                 dbLat, dbLng,
@@ -189,26 +236,44 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
             )
             !!.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ weatherResult -> //Load Image
+                .subscribe({ weatherResult ->
+                    cityId = weatherResult?.id ?: 0
+                    cityName = weatherResult?.name ?: ""
+                    description = weatherResult?.weather?.get(0)?.description ?: ""
+                    refreshTime = weatherResult?.dt!!.toLong()
+                    temperature = weatherResult.main?.temp?.toInt() ?: 0
 
-                    mTxtCity?.text = weatherResult?.name
-                    mCity = mTxtCity?.text.toString()
-                    mTxtWeatherDesc?.text = weatherResult?.weather?.get(0)?.description
-                    mTxtTemp?.text =
-                        StringBuilder(String.valueOf(weatherResult?.main?.temp?.toInt()))
-                            .append("°C").toString()
-                    //date
-                    mTxtDateTime!!.text =
-                        getString(R.string.last_refresh, Common().convertUnixToHour(weatherResult?.dt!!.toLong()));
-                    // change background
-                    binding.imgBg1.setBackgroundResource(
-                        Common().changeBackgroundImage(
-                            weatherResult.weather?.get(0)?.description!!, Calendar.getInstance()
-                        )
-                    )
-                    loading?.visibility = View.GONE
+                    updateViews(cityName, description, temperature, refreshTime)
+
+                    // save weather info to db
+                    citiesViewModel.addCities(CitiesTable(id = cityId, cityName = cityName, description = description, refreshTime = refreshTime, temperature = temperature, isFavourite = false))
+                    // save locationID to preference
+                    Common().saveLocationID(requireContext(), cityId)
+
+//                    mTxtCity?.text = weatherResult.name
+//                    mCity = mTxtCity?.text.toString()
+//                    mTxtWeatherDesc?.text = weatherResult.weather?.get(0)?.description
+//                    mTxtTemp?.text =
+//                        StringBuilder((weatherResult.main?.temp?.toInt()!!))
+//                            .append("°C").toString()
+//                    //date
+//                    mTxtDateTime!!.text =
+//                        getString(R.string.last_refresh, Common().convertUnixToHour(weatherResult?.dt!!.toLong()));
+//                    // change background image
+//                    binding.imgBg1.setBackgroundResource(
+//                        Common().changeBackgroundImage(
+//                            weatherResult.weather?.get(0)?.description!!
+//                        )
+//                    )
+//                    // change background color
+//                    binding.constraintLayout.setBackgroundColor(
+//                        Common().changeBackgroundColor(
+//                            weatherResult.weather?.get(0)?.description!!
+//                        )
+//                    )
+                    loading?.visibility = View.INVISIBLE
                 }, { throwable ->
-                    loading?.visibility = View.GONE
+                    loading?.visibility = View.INVISIBLE
                     Snackbar.make(
                         requireActivity().findViewById(android.R.id.content),
                         throwable.message!!, Snackbar.LENGTH_LONG

@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_sunny"
+    android:id="@+id/constraintLayout"
     tools:context=".presentation.fragments.HomeFragment">
 
     <ImageView
@@ -45,7 +46,8 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:indeterminate="true" />
+                android:indeterminate="true"
+                android:visibility="invisible"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -62,6 +64,7 @@
                         android:textColor="@color/white"
                         android:textSize="48sp"
                         android:textStyle="bold"
+                        android:layout_marginBottom="8dp"
                         tools:text="25°" />
 
 <!--                    Description-->
@@ -71,8 +74,9 @@
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/white"
                         android:textStyle="bold"
-                        android:textAllCaps="true"
                         android:textSize="24sp"
+                        android:layout_marginBottom="8dp"
+                        app:textAllCaps="true"
                         tools:text="SUNNY" />
 
 <!--                    City-->
@@ -81,7 +85,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:drawablePadding="10dp"
                         android:gravity="center_vertical"
                         android:textColor="@android:color/white"
                         android:textSize="16sp"
@@ -93,12 +96,12 @@
                         android:id="@+id/txt_date_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="8dp"
                         android:gravity="center"
-                        android:textColor="@color/color_sunny"
+                        android:textColor="@color/white"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        tools:text=" ⟳ Last refreshed at 6:35 AM"
+                        tools:text=" ⟳ Updated at 6:35 AM"
                         />
 
                 </LinearLayout>

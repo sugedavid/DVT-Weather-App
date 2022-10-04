@@ -12,9 +12,10 @@ class CitiesViewModel(application: Application): AndroidViewModel(application) {
 
     val readAllData: LiveData<List<CitiesTable>>
     private val repository: CitiesRepository
+    val citiesDao = CitiesDatabase.getDatabase(application).citiesDao()
 
     init {
-        val citiesDao = CitiesDatabase.getDatabase(application).citiesDao()
+//        val citiesDao = CitiesDatabase.getDatabase(application).citiesDao()
         repository = CitiesRepository(citiesDao)
         readAllData = repository.readAllData
     }
@@ -29,5 +30,15 @@ class CitiesViewModel(application: Application): AndroidViewModel(application) {
         viewModelScope.launch ( Dispatchers.IO) {
             repository.updateCities(citiesTable)
         }
+    }
+
+//    fun getCity(id: Int){
+//        viewModelScope.launch ( Dispatchers.IO) {
+//            repository.getCity(id)
+//        }
+//    }
+
+    fun getCity(id: Int): LiveData<CitiesTable>{
+        return citiesDao.getCity(id)
     }
 }
