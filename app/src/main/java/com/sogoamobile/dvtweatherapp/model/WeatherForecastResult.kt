@@ -8,4 +8,5 @@ class WeatherForecastResult {
     var city: City? = null
     var name: String? = null
     var coord: Coord? = null
+    var id = 0
 }

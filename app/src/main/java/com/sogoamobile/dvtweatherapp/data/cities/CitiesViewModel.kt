@@ -32,12 +32,6 @@ class CitiesViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-//    fun getCity(id: Int){
-//        viewModelScope.launch ( Dispatchers.IO) {
-//            repository.getCity(id)
-//        }
-//    }
-
     fun getCity(id: Int): LiveData<CitiesTable>{
         return citiesDao.getCity(id)
     }

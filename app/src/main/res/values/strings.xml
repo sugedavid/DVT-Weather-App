@@ -9,5 +9,6 @@
     <string name="note_added">Successfully added</string>
     <string name="current_weather">Current weather</string>
     <string name="last_refresh">⟳ Updated at %1$s</string>
+    <string name="permission_denied">Permission Denied</string>
 
 </resources>

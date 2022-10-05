@@ -1,6 +1,7 @@
 package com.sogoamobile.dvtweatherapp.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,13 +9,14 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.sogoamobile.dvtweatherapp.R
 import com.sogoamobile.dvtweatherapp.common.Common
+import com.sogoamobile.dvtweatherapp.data.cityforecast.CityForecastTable
 import com.sogoamobile.dvtweatherapp.model.WeatherForecastResult
 import com.squareup.picasso.Picasso
 
 
 class WeatherForecastAdapter(
     var context: Context,
-    private var weatherForecastResult: WeatherForecastResult
+    private var weatherForecastResult: List<CityForecastTable>
 ) :
     RecyclerView.Adapter<WeatherForecastAdapter.MyViewHolder>() {
 
@@ -25,15 +27,15 @@ class WeatherForecastAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val desc: String? = weatherForecastResult.list?.get(position)?.weather?.get(0)?.description
+        Log.d("TAG_city_forecast_list2", weatherForecastResult.toString())
 
         //Load weather icon
         Picasso.get().load(
             StringBuilder(Common().imageUrl)
-                .append(weatherForecastResult.list?.get(position)?.weather?.get(0)?.icon)
+                .append(weatherForecastResult[position].imageIcon)
                 .append(".png").toString()
         ).into(holder.imgWeather)
-        val time: String? = weatherForecastResult.list?.get(position)?.dt?.let {
+        val time: String? = weatherForecastResult[position].day.let {
             Common().convertUnixToDay(
                 it
             )
@@ -44,9 +46,7 @@ class WeatherForecastAdapter(
         //temperature
         holder.txtTemperature.text = StringBuilder(
             java.lang.String.valueOf(
-                weatherForecastResult.list?.get(
-                    position
-                )?.main?.temp?.toInt()
+                weatherForecastResult[position].temperature
             )
         ).append(" °")
     }
