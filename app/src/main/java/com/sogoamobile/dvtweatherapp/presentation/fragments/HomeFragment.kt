@@ -27,6 +27,8 @@ import com.sogoamobile.dvtweatherapp.adapter.WeatherForecastAdapter
 import com.sogoamobile.dvtweatherapp.common.Common
 import com.sogoamobile.dvtweatherapp.data.cities.CitiesTable
 import com.sogoamobile.dvtweatherapp.data.cities.CitiesViewModel
+import com.sogoamobile.dvtweatherapp.data.cityforecast.CityForecastTable
+import com.sogoamobile.dvtweatherapp.data.cityforecast.CityForecastViewModel
 import com.sogoamobile.dvtweatherapp.databinding.FragmentHomeBinding
 import com.sogoamobile.dvtweatherapp.model.WeatherForecastResult
 import com.sogoamobile.dvtweatherapp.network.IOpenWeatherMap
@@ -62,8 +64,10 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
     private val binding get() = _binding!!
 
     private lateinit var citiesViewModel: CitiesViewModel
+    private lateinit var cityForecastViewModel: CityForecastViewModel
 
     private var citiesList:List<CitiesTable> = emptyList()
+    private var cityForecastList:List<CityForecastTable> = emptyList()
 
     // current weather info
     var cityId =  0
@@ -71,6 +75,12 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
     var description = ""
     var refreshTime: Long = 0
     var temperature: Int =  0
+
+    // forecast info
+    var forecastId = 0
+    var forecastImage = ""
+    var forecastDay: Long = 0
+    var forecastTemperature: Int =  0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,12 +104,13 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
 
         //CitiesViewModel
         citiesViewModel = ViewModelProvider(this).get(CitiesViewModel::class.java)
-//        citiesList = citiesViewModel.readAllData.value ?: emptyList()
+        //CityForecastViewModel
+        cityForecastViewModel = ViewModelProvider(this).get(CityForecastViewModel::class.java)
 
         citiesViewModel.readAllData.observe(this.viewLifecycleOwner) { cities ->
             Log.d("TAG_cities_list_db", cities.toString())
             citiesList = cities
-            adapter.setData(cities)
+//            adapter.setData(cities)
 
             // check if db has current weather info
             if(citiesList.isEmpty()){
@@ -114,9 +125,27 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
             }
         }
 
+        cityForecastViewModel.readCityForecast.observe(this.viewLifecycleOwner) { cityForecast ->
+            Log.d("TAG_city_forecast_list", cityForecast.toString())
+            cityForecastList = cityForecast
+
+            // check if db has forecast weather info
+            if(cityForecastList.isEmpty()){
+                //  fetch 5 day forecast
+                getForecastWeatherInformation()
+            }else{
+                // load forecast weather info from db to recyclerview
+                val adapter = WeatherForecastAdapter(requireContext(), cityForecast)
+                val recyclerView = binding.recyclerForecast
+                recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                recyclerView.adapter = adapter
+            }
+        }
+
+
         // recycler view
-         adapter =
-            CitiesForecastAdapter(requireContext(), compositeDisposable!!, mService!!, Common().getCitiesList(), citiesViewModel)
+//         adapter =
+//            CitiesForecastAdapter(requireContext(), compositeDisposable!!, mService!!, Common().getCitiesList(), citiesViewModel)
 //        val recyclerView = binding.recyclerCitiesForecast
 //        recyclerView.layoutManager = LinearLayoutManager(requireContext())
 //        recyclerView.adapter = adapter
@@ -159,7 +188,7 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
                 ) {
                     Snackbar.make(
                         activity!!.findViewById(android.R.id.content),
-                        "Permission Denied",
+                        getString(R.string.permission_denied),
                         Snackbar.LENGTH_LONG
                     ).show()
                 }
@@ -197,8 +226,6 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
 //            cdvSearchView.visibility = View.VISIBLE
 //        }
 
-       //  get 5 day forecast
-//        getForecastWeatherInformation()
         return view
     }
 
@@ -213,18 +240,13 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
             getString(R.string.last_refresh, Common().convertUnixToHour(refreshTime));
         // change background image
         binding.imgBg1.setBackgroundResource(
-            Common().changeBackgroundImage(
-                description
-            )
+            Common().changeBackgroundImage(description)
         )
         // change background color
         binding.constraintLayout.setBackgroundColor(
-            Common().changeBackgroundColor(
-                description
-            )
+            Common().changeBackgroundColor(description)
         )
     }
-
 
     private fun getCurrentWeatherInformation() {
         loading?.visibility = View.VISIBLE
@@ -243,34 +265,14 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
                     refreshTime = weatherResult?.dt!!.toLong()
                     temperature = weatherResult.main?.temp?.toInt() ?: 0
 
+                    // render data to ui
                     updateViews(cityName, description, temperature, refreshTime)
-
                     // save weather info to db
-                    citiesViewModel.addCities(CitiesTable(id = cityId, cityName = cityName, description = description, refreshTime = refreshTime, temperature = temperature, isFavourite = false))
+                    citiesViewModel.addCities(CitiesTable(id = cityId, cityName = cityName,
+                        description = description, refreshTime = refreshTime, temperature = temperature, isFavourite = false))
                     // save locationID to preference
                     Common().saveLocationID(requireContext(), cityId)
 
-//                    mTxtCity?.text = weatherResult.name
-//                    mCity = mTxtCity?.text.toString()
-//                    mTxtWeatherDesc?.text = weatherResult.weather?.get(0)?.description
-//                    mTxtTemp?.text =
-//                        StringBuilder((weatherResult.main?.temp?.toInt()!!))
-//                            .append("°C").toString()
-//                    //date
-//                    mTxtDateTime!!.text =
-//                        getString(R.string.last_refresh, Common().convertUnixToHour(weatherResult?.dt!!.toLong()));
-//                    // change background image
-//                    binding.imgBg1.setBackgroundResource(
-//                        Common().changeBackgroundImage(
-//                            weatherResult.weather?.get(0)?.description!!
-//                        )
-//                    )
-//                    // change background color
-//                    binding.constraintLayout.setBackgroundColor(
-//                        Common().changeBackgroundColor(
-//                            weatherResult.weather?.get(0)?.description!!
-//                        )
-//                    )
                     loading?.visibility = View.INVISIBLE
                 }, { throwable ->
                     loading?.visibility = View.INVISIBLE
@@ -294,9 +296,23 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
                 !!.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ weatherForecastResult ->
-                        displayForecastWeather(
-                            weatherForecastResult!!,
-                        )
+
+//                        forecastId = weatherForecastResult.id
+
+                        for (result in weatherForecastResult?.list!!){
+                            forecastImage = result.weather?.get(0)?.icon ?: ""
+                            forecastDay = result.dt
+                            forecastTemperature = result.temp.toInt()
+
+                            // save weatherForecastResult to db
+                            cityForecastViewModel.addCityForecast(CityForecastTable(id = 0, day = forecastDay,imageIcon = forecastImage,
+                                temperature = forecastTemperature  ))
+
+                        }
+
+//                        displayForecastWeather(
+//                            weatherForecastResult,
+//                        )
                     }
                     ) { throwable ->
                         Snackbar.make(
@@ -315,9 +331,22 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
                 !!.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ weatherForecastResult ->
-                        displayForecastWeather(
-                            weatherForecastResult!!,
-                        )
+
+                        for (result in weatherForecastResult?.list!!){
+                            forecastId = weatherForecastResult.id
+                            forecastImage = result.weather?.get(0)?.icon ?: ""
+                            forecastDay = result.dt
+                            forecastTemperature = result.temp.toInt()
+
+                            // save weatherForecastResult to db
+                            cityForecastViewModel.addCityForecast(CityForecastTable(id = forecastId, day = forecastDay,imageIcon = forecastImage,
+                                temperature = forecastTemperature  ))
+
+                        }
+
+//                        displayForecastWeather(
+//                            weatherForecastResult!!,
+//                        )
                     }
                     ) { throwable ->
                         Snackbar.make(
@@ -330,15 +359,15 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
 
     }
 
-    private fun displayForecastWeather(
-        weatherForecastResult: WeatherForecastResult
-
-    ) {
-        val adapter = WeatherForecastAdapter(requireContext(), weatherForecastResult)
-        val recyclerView = binding.recyclerForecast
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = adapter
-    }
+//    private fun displayForecastWeather(
+//        weatherForecastResult: WeatherForecastResult
+//
+//    ) {
+//        val adapter = WeatherForecastAdapter(requireContext(), weatherForecastResult)
+//        val recyclerView = binding.recyclerForecast
+//        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+//        recyclerView.adapter = adapter
+//    }
 
     override fun onQueryTextSubmit(query: kotlin.String?): Boolean {
         adapter.filter.filter(query)

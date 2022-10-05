@@ -114,13 +114,6 @@ class WeatherInfoFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        // notes tab
-        val notesTab = binding.weatherInfoAppbar.cdvNotes
-        notesTab.setOnClickListener {
-            val action = WeatherInfoFragmentDirections.actionWeatherFragmentToNotesFragment()
-            findNavController().navigate(action)
-        }
-
         // check location permissions
         Dexter.withActivity(activity)
             .withPermissions(
@@ -331,9 +324,9 @@ class WeatherInfoFragment : Fragment() {
                 !!.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ weatherForecastResult ->
-                        displayForecastWeather(
-                            weatherForecastResult!!,
-                        )
+//                        displayForecastWeather(
+//                            weatherForecastResult!!,
+//                        )
                     }
                     ) { throwable ->
                         Snackbar.make(
@@ -352,9 +345,9 @@ class WeatherInfoFragment : Fragment() {
                 !!.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ weatherForecastResult ->
-                        displayForecastWeather(
-                            weatherForecastResult!!,
-                        )
+//                        displayForecastWeather(
+//                            weatherForecastResult!!,
+//                        )
                     }
                     ) { throwable ->
                         Snackbar.make(
@@ -367,14 +360,14 @@ class WeatherInfoFragment : Fragment() {
 
     }
 
-    private fun displayForecastWeather(
-        weatherForecastResult: WeatherForecastResult
-
-    ) {
-        val adapter = WeatherForecastAdapter(requireContext(), weatherForecastResult)
-        val recyclerView = binding.recyclerForecast
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-        recyclerView.adapter = adapter
-    }
+//    private fun displayForecastWeather(
+//        weatherForecastResult: WeatherForecastResult
+//
+//    ) {
+//        val adapter = WeatherForecastAdapter(requireContext(), weatherForecastResult)
+//        val recyclerView = binding.recyclerForecast
+//        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+//        recyclerView.adapter = adapter
+//    }
 
 }

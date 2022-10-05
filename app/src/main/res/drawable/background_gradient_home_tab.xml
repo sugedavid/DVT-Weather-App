@@ -6,7 +6,7 @@
         android:angle="360"
         android:endColor="#FFFFFF"
         android:centerColor="#FFFFFF"
-        android:startColor="@color/background_light3"
+        android:startColor="@color/white"
         android:type = "linear"
         android:centerY="0.2"/>
 
