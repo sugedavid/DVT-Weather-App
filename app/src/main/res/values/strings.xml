@@ -7,8 +7,7 @@
     <string name="hint_note">Note…</string>
     <string name="write_note">Write note</string>
     <string name="note_added">Successfully added</string>
-    <string name="copyright">© 2021 \n\nTerms of service | Privacy policy</string>
     <string name="current_weather">Current weather</string>
-    <string name="last_refresh">⟳ Last refreshed at %1$s</string>
+    <string name="last_refresh">⟳ Updated at %1$s</string>
 
 </resources>

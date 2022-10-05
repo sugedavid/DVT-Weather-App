@@ -117,7 +117,7 @@ open class CitiesForecastAdapter(
                         citiesViewModel.addCities(city)
 
                         // update db
-                        val updatedCity = CitiesTable(city.id, city.cityName, !city.isFavourite)
+                        val updatedCity = CitiesTable(city.id, city.cityName, city.description, city.refreshTime,city.temperature, !city.isFavourite)
                         // add to db
                         citiesViewModel.updateCities(updatedCity)
 
