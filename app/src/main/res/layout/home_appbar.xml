@@ -3,22 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:background="@drawable/background_gradient_home_tab"
+    android:background="@android:color/transparent"
     android:padding="10dp">
 
+    <ImageButton
+        android:id="@+id/imgDrawerMenu"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@android:color/transparent"
+        android:padding="8dp"
+        android:src="@drawable/ic_baseline_menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/imgSearchTab"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:background="@android:color/transparent"
         android:padding="8dp"
         android:src="@drawable/ic_baseline_search"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cdvSearchView"/>
-
+        app:layout_constraintEnd_toStartOf="@+id/imgWeatherFav"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cdvSearchView"
@@ -47,14 +55,12 @@
 
 
     <ImageButton
-        android:id="@+id/imgWeatherInfoTab"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:id="@+id/imgWeatherFav"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:background="@android:color/transparent"
         android:padding="8dp"
-        android:layout_marginEnd="30dp"
-        android:src="@drawable/ic_world"
-        android:scaleType="centerCrop"
+        android:src="@drawable/ic_heart_outline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

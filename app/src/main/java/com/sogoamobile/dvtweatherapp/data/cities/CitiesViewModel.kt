@@ -26,7 +26,7 @@ class CitiesViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun updateCities(citiesTable: CitiesTable){
+    fun updateCity(citiesTable: CitiesTable){
         viewModelScope.launch ( Dispatchers.IO) {
             repository.updateCities(citiesTable)
         }

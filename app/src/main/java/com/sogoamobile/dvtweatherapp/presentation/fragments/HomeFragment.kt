@@ -5,16 +5,23 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -37,6 +44,9 @@ import com.sogoamobile.dvtweatherapp.presentation.fragments.WeatherInfoFragment.
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.app_drawer.*
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.home_appbar.*
 import retrofit2.Retrofit
 import java.util.*
 import kotlin.Boolean
@@ -54,6 +64,8 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
     private var mTxtDateTime: TextView? = null
     private var mCity = ""
     private var loading: ProgressBar? = null
+    private var mImgFav: ImageButton? = null
+    private var mImgMenu: ImageButton? = null
     private var searchView: SearchView? = null
     private lateinit var adapter: CitiesForecastAdapter
 
@@ -80,12 +92,16 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
     var temperature: Int =  0
     var temperatureMax: Int =  0
     var temperatureMin: Int =  0
+    var isFavourite: Boolean = false
 
     // forecast info
     var forecastId = 0
     var forecastImage = ""
     var forecastDay: Long = 0
     var forecastTemperature: Int =  0
+
+    lateinit var drawerLayout: DrawerLayout
+    lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -124,7 +140,8 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
             }else{
                 // display current weather info from db
                 citiesViewModel.getCity(Common().getCityID(requireContext())).observe(this.viewLifecycleOwner) { city ->
-                    updateViews(city.cityName, city.description, city.temperature,  city.temperatureMin, city.temperatureMax, city.refreshTime)
+                    updateViews(city.id, city.cityName, city.description, city.temperature, city.temperatureMin,
+                        city.temperatureMax, city.refreshTime, city.isFavourite)
                 }
             }
         }
@@ -205,6 +222,34 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
         mTxtCity = binding.txtCurrentLocation
         mTxtDateTime = binding.txtDateTime
         loading = binding.loadingF
+        mImgFav = binding.layoutHomeAppbar.imgWeatherFav
+        mImgMenu = binding.layoutHomeAppbar.imgDrawerMenu
+        drawerLayout = binding.drawerLayout
+
+        // drawer setup
+        actionBarDrawerToggle = ActionBarDrawerToggle(requireActivity(), drawerLayout, R.string.nav_open, R.string.nav_close)
+        drawerLayout.addDrawerListener(actionBarDrawerToggle)
+        actionBarDrawerToggle.syncState()
+
+        mImgMenu?.setOnClickListener {
+            if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            } else {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        }
+
+        binding.navView.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_favourites -> {
+                    Toast.makeText(requireContext(), "Clicked", Toast.LENGTH_SHORT).show()
+                }
+            }
+            true
+        }
+
+        // to make the Navigation drawer icon always appear on the action bar
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 //        cdvFav?.setOnClickListener {
 //            val action = HomeFragmentDirections.actionHomeFragmentToWeatherFragment(
@@ -235,7 +280,8 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
         return view
     }
 
-    private fun updateViews(cityName: String, description: String, temperature: Int,temperatureMin: Int,temperatureMax: Int, refreshTime: Long ){
+    private fun updateViews(cityID: Int, cityName: String, description: String, temperature: Int,temperatureMin: Int,
+                            temperatureMax: Int, refreshTime: Long, isFavourite: Boolean){
 
         mTxtCity?.text = cityName
         mCity = mTxtCity?.text.toString()
@@ -244,6 +290,25 @@ class HomeFragment : Fragment() , SearchView.OnQueryTextListener{
         mTxtTempCurrent?.text = "$temperature °\nCurrent"
         mTxtTempMin?.text = "$temperatureMin °\nmin"
         mTxtTempMax?.text = "$temperatureMax °\nmax"
+        mImgFav?.setImageResource(
+             when {
+                isFavourite -> {
+                    R.drawable.ic_heart_white
+                }
+                else -> {
+                    R.drawable.ic_heart_outline
+                }
+            }
+        )
+        // favourite city
+        mImgFav?.setOnClickListener{
+                Log.d("test","clicked")
+                // save weatherForecastResult to db
+                citiesViewModel.updateCity(CitiesTable(id = cityID, cityName = cityName,
+                    description = description, refreshTime = refreshTime, temperature = temperature,
+                    temperatureMin = temperatureMin,temperatureMax = temperatureMax, isFavourite = true))
+        }
+
         //date
         mTxtDateTime!!.text =
             getString(R.string.last_refresh, Common().convertUnixToHour(refreshTime));

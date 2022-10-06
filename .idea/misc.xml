@@ -6,23 +6,29 @@
         <entry key="app/src/main/res/drawable/background_gradient.xml" value="0.2085" />
         <entry key="app/src/main/res/drawable/background_gradient_home_tab.xml" value="0.2085" />
         <entry key="app/src/main/res/drawable/custom_divider.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_baseline_menu.xml" value="0.1355" />
         <entry key="app/src/main/res/drawable/ic_baseline_refresh.xml" value="0.1365" />
+        <entry key="app/src/main/res/drawable/ic_heart_outline.xml" value="0.1355" />
+        <entry key="app/src/main/res/drawable/ic_heart_white.xml" value="0.223" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2085" />
         <entry key="app/src/main/res/drawable/ic_night.xml" value="0.2085" />
         <entry key="app/src/main/res/drawable/ic_rainy_night.xml" value="0.2085" />
         <entry key="app/src/main/res/layout-v21/fragment_home.xml" value="0.24947916666666667" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/app_drawer.xml" value="0.165" />
         <entry key="app/src/main/res/layout/dialog_notes.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_notes.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_weather_info.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/home_appbar.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/home_appbar.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_cities_forecast.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_notes.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_weather_forecast.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_weather_forecastb.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/nav_header.xml" value="0.165" />
         <entry key="app/src/main/res/layout/notes_appbar.xml" value="0.25" />
         <entry key="app/src/main/res/layout/weather_info_appbar.xml" value="0.25" />
+        <entry key="app/src/main/res/menu/navigation_menu.xml" value="0.10989583333333333" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
       </map>
     </option>
