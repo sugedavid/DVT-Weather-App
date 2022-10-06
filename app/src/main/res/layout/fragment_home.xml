@@ -40,14 +40,15 @@
 <!--                app:layout_constraintStart_toStartOf="parent"-->
 <!--                app:layout_constraintTop_toTopOf="parent" />-->
 
-<!--            Progress bar-->
+            <!--            Progress bar-->
             <ProgressBar
                 android:id="@+id/loadingF"
-                style="?android:attr/progressBarStyleHorizontal"
+                style="?android:attr/progressBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:indeterminate="true"
-                android:visibility="invisible"/>
+                android:visibility="invisible"
+                android:indeterminateTint="@color/white"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -56,7 +57,7 @@
                     android:orientation="vertical"
                     android:padding="10dp">
 
-<!--                    Temperature-->
+                    <!--                    Temperature-->
                     <TextView
                         android:id="@+id/txtTemp"
                         android:layout_width="wrap_content"
@@ -67,7 +68,7 @@
                         android:layout_marginBottom="8dp"
                         tools:text="25°" />
 
-<!--                    Description-->
+                    <!--                    Description-->
                     <TextView
                         android:id="@+id/txtWeatherDesc"
                         android:layout_width="wrap_content"
@@ -79,7 +80,7 @@
                         app:textAllCaps="true"
                         tools:text="SUNNY" />
 
-<!--                    City-->
+                    <!--                    City-->
                     <TextView
                         android:id="@+id/txtCurrentLocation"
                         android:layout_width="wrap_content"
@@ -88,10 +89,9 @@
                         android:gravity="center_vertical"
                         android:textColor="@android:color/white"
                         android:textSize="16sp"
-                        android:textStyle="bold"
                         tools:text="London" />
 
-<!--                    Time-->
+                    <!--                    Time-->
                     <TextView
                         android:id="@+id/txt_date_time"
                         android:layout_width="wrap_content"
@@ -100,22 +100,67 @@
                         android:gravity="center"
                         android:textColor="@color/white"
                         android:textSize="14sp"
-                        android:textStyle="bold"
                         tools:text=" ⟳ Updated at 6:35 AM"
                         />
 
                 </LinearLayout>
 
-<!--            View divider-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="80dp"
+                android:padding="10dp"
+                >
+
+                <!--                    Min Temp-->
+                <TextView
+                    android:id="@+id/txtTempMin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="19°\nmin" />
+
+                <!--                    Min Temp-->
+                <TextView
+                    android:id="@+id/txtTempCurrent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="25°\nCurrent" />
+
+                <!--                    Max Temp-->
+                <TextView
+                    android:id="@+id/txtTempMax"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="27°\nmax" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--            View divider-->
             <View
                 android:id="@+id/view"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="150dp"
                 android:layout_marginBottom="20dp"
                 android:background="@android:color/white" />
 
-<!--            5 day forecast-->
+            <!--            5 day forecast-->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_forecast"
                 android:layout_width="match_parent"

@@ -11,5 +11,7 @@ data class CitiesTable (
     val description: String,
     val refreshTime: Long,
     val temperature: Int,
+    val temperatureMin: Int,
+    val temperatureMax: Int,
     var isFavourite: Boolean
     )
