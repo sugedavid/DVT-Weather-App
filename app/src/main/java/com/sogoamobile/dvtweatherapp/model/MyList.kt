@@ -9,5 +9,4 @@ class MyList {
     var rain: Rain? = null
     var sys: Sys? = null
     var dt_txt: String? = null
-    var temp: Double = 0.0
 }
