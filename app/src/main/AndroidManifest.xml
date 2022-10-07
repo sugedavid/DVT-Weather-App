@@ -15,6 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WeatherApp">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/places_apiKey" />
+
         <activity
             android:name="com.sogoamobile.dvtweatherapp.presentation.MainActivity"
             android:exported="true">

@@ -1,23 +1,22 @@
 package com.sogoamobile.dvtweatherapp.repository
 
-import android.content.ClipData
 import androidx.lifecycle.LiveData
-import com.sogoamobile.dvtweatherapp.data.cities.CitiesDao
-import com.sogoamobile.dvtweatherapp.data.cities.CitiesTable
+import com.sogoamobile.dvtweatherapp.data.location.LocationDao
+import com.sogoamobile.dvtweatherapp.data.location.LocationTable
 
-class CitiesRepository(private val citiesDao: CitiesDao) {
+class CitiesRepository(private val citiesDao: LocationDao) {
 
-    val readAllData: LiveData<List<CitiesTable>> = citiesDao.readAllData()
+    val readAllData: LiveData<List<LocationTable>> = citiesDao.readAllData()
 
-    fun addCities(citiesTable: CitiesTable){
-        citiesDao.addCities(citiesTable)
+    fun addCities(locationTable: LocationTable){
+        citiesDao.addCities(locationTable)
     }
 
-    fun updateCities(citiesTable: CitiesTable){
-        citiesDao.updateCity(citiesTable)
+    fun updateCities(locationTable: LocationTable){
+        citiesDao.updateCity(locationTable)
     }
 
-    fun getCity(id: Int): LiveData<CitiesTable>{
+    fun getCity(id: Int): LiveData<LocationTable>{
         return citiesDao.getCity(id)
     }
 }

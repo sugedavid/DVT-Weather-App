@@ -2,7 +2,6 @@ package com.sogoamobile.dvtweatherapp.common
 
 import android.content.Context
 import com.sogoamobile.dvtweatherapp.R
-import com.sogoamobile.dvtweatherapp.data.cities.CitiesTable
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -71,27 +70,27 @@ class Common {
         }
     }
 
-    fun saveLocationID(context: Context, locationID: Int){
-        val sharedPreference =  context.getSharedPreferences("CITY_ID", Context.MODE_PRIVATE)
+    fun saveLocationID(context: Context, locationID: Int) {
+        val sharedPreference = context.getSharedPreferences("CITY_ID", Context.MODE_PRIVATE)
         val editor = sharedPreference.edit()
-        editor.putInt("cityID",locationID)
+        editor.putInt("cityID", locationID)
         editor.apply()
     }
 
-    fun getCityID(context: Context): Int{
-        val sharedPreference =  context.getSharedPreferences("CITY_ID", Context.MODE_PRIVATE)
-        return sharedPreference.getInt("cityID",3163858)
+    fun getLocationID(context: Context): Int {
+        val sharedPreference = context.getSharedPreferences("CITY_ID", Context.MODE_PRIVATE)
+        return sharedPreference.getInt("cityID", 3163858)
     }
 
-    fun saveCondition(context: Context, condition: String){
-        val sharedPreference =  context.getSharedPreferences("CONDITION", Context.MODE_PRIVATE)
+    fun saveCondition(context: Context, condition: String) {
+        val sharedPreference = context.getSharedPreferences("CONDITION", Context.MODE_PRIVATE)
         val editor = sharedPreference.edit()
-        editor.putString("condition",condition)
+        editor.putString("condition", condition)
         editor.apply()
     }
 
     fun getCondition(context: Context): String {
-        val sharedPreference =  context.getSharedPreferences("CONDITION", Context.MODE_PRIVATE)
-        return sharedPreference.getString("condition","sun").toString()
+        val sharedPreference = context.getSharedPreferences("CONDITION", Context.MODE_PRIVATE)
+        return sharedPreference.getString("condition", "sun").toString()
     }
 }

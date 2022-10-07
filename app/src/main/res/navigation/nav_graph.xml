@@ -19,15 +19,35 @@
             app:destination="@id/favouritesFragment" />
     </fragment>
 
+    <!--    favourites-->
     <fragment
         android:id="@+id/favouritesFragment"
         android:name="com.sogoamobile.dvtweatherapp.presentation.fragments.FavouritesFragment"
-        android:label="Weather Info"
+        android:label="Favourites"
         tools:layout="@layout/fragment_favourites">
 
         <action
             android:id="@+id/action_favouritesFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_favouritesFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
+
+    <!--    map-->
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.sogoamobile.dvtweatherapp.presentation.fragments.MapsFragment"
+        android:label="Maps"
+        tools:layout="@layout/fragment_maps">
+
+        <action
+            android:id="@+id/action_mapFragment_to_favouritesFragment"
+            app:destination="@id/favouritesFragment"
+            app:popUpTo="@id/favouritesFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment

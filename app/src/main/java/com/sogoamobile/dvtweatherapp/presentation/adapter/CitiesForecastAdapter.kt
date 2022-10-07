@@ -9,8 +9,8 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.sogoamobile.dvtweatherapp.R
 import com.sogoamobile.dvtweatherapp.common.Common
-import com.sogoamobile.dvtweatherapp.data.cities.CitiesTable
-import com.sogoamobile.dvtweatherapp.data.cities.CitiesViewModel
+import com.sogoamobile.dvtweatherapp.data.location.LocationTable
+import com.sogoamobile.dvtweatherapp.data.location.LocationViewModel
 import com.sogoamobile.dvtweatherapp.presentation.fragments.HomeFragmentDirections
 import com.sogoamobile.dvtweatherapp.network.IOpenWeatherMap
 import com.squareup.picasso.Picasso
@@ -30,13 +30,13 @@ open class CitiesForecastAdapter(
     var context: Context,
     private var compositeDisposable: CompositeDisposable,
     private var mService: IOpenWeatherMap,
-    private var cities: ArrayList<CitiesTable>,
-    private var citiesViewModel: CitiesViewModel
+    private var cities: ArrayList<LocationTable>,
+    private var locationViewModel: LocationViewModel
 ) :
     RecyclerView.Adapter<CitiesForecastAdapter.MyViewHolder>(), Filterable {
 
-    private var citiesDB = emptyList<CitiesTable>()
-    var citiesListFiltered = ArrayList<CitiesTable>()
+    private var citiesDB = emptyList<LocationTable>()
+    var citiesListFiltered = ArrayList<LocationTable>()
 
     init {
         citiesListFiltered = cities
@@ -114,7 +114,7 @@ open class CitiesForecastAdapter(
                     // favourite click
                     holder.itemView.imgFavourite.setOnClickListener {
 
-                        citiesViewModel.addCities(city)
+                        locationViewModel.addCities(city)
 
                         // update db
 //                        val updatedCity = CitTable(city.id, city.cityName, city.description, city.refreshTime,city.temperature, !city.isFavourite)
@@ -149,7 +149,7 @@ open class CitiesForecastAdapter(
 
     }
 
-    fun setData(citiesListDB: List<CitiesTable>) {
+    fun setData(citiesListDB: List<LocationTable>) {
         this.citiesDB = citiesListDB
         notifyDataSetChanged()
     }
@@ -161,7 +161,7 @@ open class CitiesForecastAdapter(
                 if (charSearch.isEmpty()) {
                     citiesListFiltered = cities
                 } else {
-                    val resultList = ArrayList<CitiesTable>()
+                    val resultList = ArrayList<LocationTable>()
                     for (row in cities) {
                         if (row.cityName.lowercase(Locale.ROOT)
                                 .contains(charSearch.lowercase(Locale.ROOT))
@@ -178,7 +178,7 @@ open class CitiesForecastAdapter(
 
             @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                citiesListFiltered = results?.values as ArrayList<CitiesTable>
+                citiesListFiltered = results?.values as ArrayList<LocationTable>
                 notifyDataSetChanged()
             }
 
