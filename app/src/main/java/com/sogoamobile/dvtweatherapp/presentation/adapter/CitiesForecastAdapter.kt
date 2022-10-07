@@ -1,4 +1,4 @@
-package com.sogoamobile.dvtweatherapp.adapter
+package com.sogoamobile.dvtweatherapp.presentation.adapter
 
 import android.content.Context
 import android.view.LayoutInflater

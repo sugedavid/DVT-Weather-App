@@ -10,7 +10,6 @@ import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
@@ -18,10 +17,8 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import com.sogoamobile.dvtweatherapp.adapter.WeatherForecastAdapter
 import com.sogoamobile.dvtweatherapp.common.Common
 import com.sogoamobile.dvtweatherapp.databinding.FragmentWeatherInfoBinding
-import com.sogoamobile.dvtweatherapp.model.WeatherForecastResult
 import com.sogoamobile.dvtweatherapp.network.IOpenWeatherMap
 import com.sogoamobile.dvtweatherapp.network.RetrofitClient
 import com.squareup.picasso.Picasso

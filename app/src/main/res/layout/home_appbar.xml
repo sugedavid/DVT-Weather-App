@@ -28,32 +28,6 @@
         app:layout_constraintEnd_toStartOf="@+id/imgWeatherFav"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cdvSearchView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:elevation="0dp"
-        android:visibility="gone"
-        app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imgWeatherInfoTab"
-        app:layout_constraintStart_toEndOf="@+id/imgSearchTab"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <SearchView
-            android:id="@+id/searchView"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:iconifiedByDefault="false"
-            android:queryHint="Search Here"
-            android:background="@color/white"
-            app:queryBackground="@null"/>
-
-    </androidx.cardview.widget.CardView>
-
-
     <ImageButton
         android:id="@+id/imgWeatherFav"
         android:layout_width="48dp"

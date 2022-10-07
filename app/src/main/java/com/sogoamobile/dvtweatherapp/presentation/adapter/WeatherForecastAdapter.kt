@@ -1,4 +1,4 @@
-package com.sogoamobile.dvtweatherapp.adapter
+package com.sogoamobile.dvtweatherapp.presentation.adapter
 
 import android.content.Context
 import android.util.Log
@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sogoamobile.dvtweatherapp.R
 import com.sogoamobile.dvtweatherapp.common.Common
 import com.sogoamobile.dvtweatherapp.data.cityforecast.CityForecastTable
-import com.sogoamobile.dvtweatherapp.model.WeatherForecastResult
 import com.squareup.picasso.Picasso
 
 
@@ -52,8 +51,7 @@ class WeatherForecastAdapter(
     }
 
     override fun getItemCount(): Int {
-//        weatherForecastResult.list!!.size
-        return 8
+        return weatherForecastResult.size
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
