@@ -53,7 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:indeterminate="true"
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     android:indeterminateTint="@color/white"/>
 
                     <LinearLayout
@@ -171,9 +171,7 @@
                     android:id="@+id/recycler_forecast"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal">
-
-                </androidx.recyclerview.widget.RecyclerView>
+                    android:layout_gravity="center_horizontal"/>
 
     <!--            <androidx.recyclerview.widget.RecyclerView-->
     <!--                android:id="@+id/recycler_cities_forecast"-->

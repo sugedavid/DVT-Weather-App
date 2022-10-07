@@ -14,7 +14,22 @@
         <action
             android:id="@+id/action_homeFragment_to_weatherFragment"
             app:destination="@id/weatherFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_favouritesFragment"
+            app:destination="@id/favouritesFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.sogoamobile.dvtweatherapp.presentation.fragments.FavouritesFragment"
+        android:label="Weather Info"
+        tools:layout="@layout/fragment_favourites">
+
+        <action
+            android:id="@+id/action_favouritesFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/weatherFragment"
         android:name="com.sogoamobile.dvtweatherapp.presentation.fragments.WeatherInfoFragment"

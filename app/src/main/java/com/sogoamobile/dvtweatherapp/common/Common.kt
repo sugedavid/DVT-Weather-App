@@ -19,7 +19,7 @@ class Common {
 
     fun convertUnixToHour(dt: Long): String? {
         val date = Date(dt * 1000L)
-        val simpleDateFormat = SimpleDateFormat("h:mm a")
+        val simpleDateFormat = SimpleDateFormat("EE, h:mm a")
         return simpleDateFormat.format(date)
     }
 
@@ -71,31 +71,6 @@ class Common {
         }
     }
 
-    fun getCitiesList(): ArrayList<CitiesTable> {
-        return arrayListOf(
-//            CitiesTable(0,"Beijing", false),
-//            CitiesTable(1,"Delhi", false),
-//            CitiesTable(2,"Dhaka", false),
-//            CitiesTable(3,"Guangzhou", false),
-//            CitiesTable(4,"Istanbul", false),
-//            CitiesTable(5,"Berlin", false),
-//            CitiesTable(6,"Calcutta", false),
-//            CitiesTable(7,"Seoul", false),
-//            CitiesTable(8,"Sao Paulo", false),
-//            CitiesTable(9,"Singapore", false),
-//            CitiesTable(10,"Copenhagen", false),
-//            CitiesTable(11,"Seoul", false),
-//            CitiesTable(12,"Chandigarh", false),
-//            CitiesTable(13,"Amsterdam", false),
-//            CitiesTable(14,"Washington DC", false),
-//            CitiesTable(15,"Zurich", false),
-//            CitiesTable(16,"Montreal", false),
-//            CitiesTable(17,"Berlin", false),
-//            CitiesTable(18,"New York", false),
-//            CitiesTable(19,"Tokyo", false),
-        )
-    }
-
     fun saveLocationID(context: Context, locationID: Int){
         val sharedPreference =  context.getSharedPreferences("CITY_ID", Context.MODE_PRIVATE)
         val editor = sharedPreference.edit()
@@ -106,5 +81,17 @@ class Common {
     fun getCityID(context: Context): Int{
         val sharedPreference =  context.getSharedPreferences("CITY_ID", Context.MODE_PRIVATE)
         return sharedPreference.getInt("cityID",3163858)
+    }
+
+    fun saveCondition(context: Context, condition: String){
+        val sharedPreference =  context.getSharedPreferences("CONDITION", Context.MODE_PRIVATE)
+        val editor = sharedPreference.edit()
+        editor.putString("condition",condition)
+        editor.apply()
+    }
+
+    fun getCondition(context: Context): String {
+        val sharedPreference =  context.getSharedPreferences("CONDITION", Context.MODE_PRIVATE)
+        return sharedPreference.getString("condition","sun").toString()
     }
 }

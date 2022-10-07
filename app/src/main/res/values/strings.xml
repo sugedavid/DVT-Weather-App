@@ -8,10 +8,11 @@
     <string name="write_note">Write note</string>
     <string name="note_added">Successfully added</string>
     <string name="current_weather">Current weather</string>
-    <string name="last_refresh">⟳ Updated at %1$s</string>
+    <string name="last_refresh">⟳ Updated %1$s</string>
     <string name="permission_denied">Permission Denied</string>
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
     <string name="favourites">Favourites</string>
+    <string name="no_favourites">You have no favourites</string>
 
 </resources>
