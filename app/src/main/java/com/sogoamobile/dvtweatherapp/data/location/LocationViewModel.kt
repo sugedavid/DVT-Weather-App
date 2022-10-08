@@ -1,4 +1,4 @@
-package com.sogoamobile.dvtweatherapp.data.cities
+package com.sogoamobile.dvtweatherapp.data.location
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -8,11 +8,11 @@ import com.sogoamobile.dvtweatherapp.repository.CitiesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CitiesViewModel(application: Application): AndroidViewModel(application) {
+class LocationViewModel(application: Application): AndroidViewModel(application) {
 
-    val readAllData: LiveData<List<CitiesTable>>
+    val readAllData: LiveData<List<LocationTable>>
     private val repository: CitiesRepository
-    val citiesDao = CitiesDatabase.getDatabase(application).citiesDao()
+    val citiesDao = LocationDatabase.getDatabase(application).citiesDao()
 
     init {
 //        val citiesDao = CitiesDatabase.getDatabase(application).citiesDao()
@@ -20,19 +20,19 @@ class CitiesViewModel(application: Application): AndroidViewModel(application) {
         readAllData = repository.readAllData
     }
 
-    fun addCities(citiesTable: CitiesTable){
+    fun addCities(locationTable: LocationTable){
         viewModelScope.launch ( Dispatchers.IO) {
-            repository.addCities(citiesTable)
+            repository.addCities(locationTable)
         }
     }
 
-    fun updateCity(citiesTable: CitiesTable){
+    fun updateCity(locationTable: LocationTable){
         viewModelScope.launch ( Dispatchers.IO) {
-            repository.updateCities(citiesTable)
+            repository.updateCities(locationTable)
         }
     }
 
-    fun getCity(id: Int): LiveData<CitiesTable>{
+    fun getCity(id: Int): LiveData<LocationTable>{
         return citiesDao.getCity(id)
     }
 }

@@ -1,10 +1,10 @@
-package com.sogoamobile.dvtweatherapp.data.cities
+package com.sogoamobile.dvtweatherapp.data.location
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "cities_table")
-data class CitiesTable (
+@Entity(tableName = "location_table")
+data class LocationTable (
     @PrimaryKey(autoGenerate = false)
     val id: Int,
     val cityName: String,
@@ -13,5 +13,7 @@ data class CitiesTable (
     val temperature: Int,
     val temperatureMin: Int,
     val temperatureMax: Int,
-    var isFavourite: Boolean
+    var isFavourite: Boolean,
+    val latitude: String,
+    val longitude: String,
     )

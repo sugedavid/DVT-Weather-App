@@ -4,14 +4,17 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.sogoamobile.dvtweatherapp.R
-import com.sogoamobile.dvtweatherapp.data.cities.CitiesTable
+import com.sogoamobile.dvtweatherapp.common.Common
+import com.sogoamobile.dvtweatherapp.data.location.LocationTable
+import com.sogoamobile.dvtweatherapp.presentation.fragments.FavouritesFragmentDirections
 
 class FavouritesAdapter(
     var context: Context,
-    private var cities: List<CitiesTable>
+    private var cities: List<LocationTable>
 ) :
     RecyclerView.Adapter<FavouritesAdapter.MyViewHolder>() {
 
@@ -23,14 +26,17 @@ class FavouritesAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        if(cities[position].isFavourite){
-            // location name
-            holder.txtLocationName.text = cities[position].cityName
+        // location name
+        holder.txtLocationName.text = cities[position].cityName
+        holder.txtLocationName.setOnClickListener {
+            Common().saveLocationID(context, cities[position].id)
+            val action = FavouritesFragmentDirections.actionFavouritesFragmentToHomeFragment()
+            holder.itemView.findNavController().navigate(action)
         }
     }
 
     override fun getItemCount(): Int {
-        return cities.size
+        return cities.filter { it.isFavourite }.size
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

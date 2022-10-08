@@ -9,13 +9,13 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.sogoamobile.dvtweatherapp.R
 import com.sogoamobile.dvtweatherapp.common.Common
-import com.sogoamobile.dvtweatherapp.data.cityforecast.CityForecastTable
+import com.sogoamobile.dvtweatherapp.data.locationForecast.LocationForecastTable
 import com.squareup.picasso.Picasso
 
 
 class WeatherForecastAdapter(
     var context: Context,
-    private var weatherForecastResult: List<CityForecastTable>
+    private var weatherForecastResult: List<LocationForecastTable>
 ) :
     RecyclerView.Adapter<WeatherForecastAdapter.MyViewHolder>() {
 
@@ -26,8 +26,6 @@ class WeatherForecastAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        Log.d("TAG_city_forecast_list2", weatherForecastResult.toString())
-
         //Load weather icon
         Picasso.get().load(
             StringBuilder(Common().imageUrl)
