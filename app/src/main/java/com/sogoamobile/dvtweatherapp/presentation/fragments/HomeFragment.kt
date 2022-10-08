@@ -316,7 +316,6 @@ class HomeFragment : Fragment() {
                     isFavourite = !isFavourite,
                     latitude = dbLat,
                     longitude = dbLng,
-
                 )
             )
 

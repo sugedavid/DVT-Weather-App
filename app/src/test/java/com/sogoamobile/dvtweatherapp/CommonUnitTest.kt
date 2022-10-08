@@ -21,7 +21,7 @@ class CommonUnitTest {
 
     @Test
     fun convertUnixToHourIsCorrect() {
-        assertEquals(Common().convertUnixToHour(longDate), "2:51 pm")
+        assertEquals(Common().convertUnixToHour(longDate), "Wed, 2:51 pm")
     }
 
     @Test

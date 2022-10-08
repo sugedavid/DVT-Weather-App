@@ -19,7 +19,7 @@ out/
 
 # Gradle files
 .gradle/
-build/
+#build/
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -85,4 +85,4 @@ lint/tmp/
 # lint/reports/
 
 # Secrets
-app/src/main/res/values/secrets.xml
+#app/src/main/res/values/secrets.xml
