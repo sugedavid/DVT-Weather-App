@@ -8,7 +8,10 @@ import java.util.*
 class Common {
     val apiKey = R.string.apiKey
     val baseUrl = "https://api.openweathermap.org/data/2.5/"
-    val imageUrl = "https://openweathermap.org/img/w/"
+
+    enum class Weather {
+        Sun, Cloud, Rain
+    }
 
     fun convertUnixToDate(dt: Long): String? {
         val date = Date(dt * 1000L)
@@ -28,15 +31,32 @@ class Common {
         return simpleDateFormat.format(date)
     }
 
+    fun changeWeatherImage(condition: String): Int {
+        return when (condition) {
+            Weather.Rain.toString() -> {
+                R.drawable.weather_rain
+            }
+            Weather.Cloud.toString()  -> {
+                R.drawable.weather_partlysunny
+            }
+            Weather.Sun.toString()  -> {
+                R.drawable.weather_clear
+            }
+            else -> {
+                R.drawable.weather_partlysunny
+            }
+        }
+    }
+
     fun changeBackgroundImage(condition: String): Int {
-        return when {
-            condition.contains("rain") -> {
+        return when (condition) {
+            Weather.Rain.toString() -> {
                 R.drawable.forest_rainy
             }
-            condition.contains("cloud") -> {
+            Weather.Cloud.toString()  -> {
                 R.drawable.forest_cloudy
             }
-            condition.contains("sun") -> {
+            Weather.Sun.toString()  -> {
                 R.drawable.forest_sunny
             }
             else -> {
@@ -46,14 +66,14 @@ class Common {
     }
 
     fun changeBackgroundColor(condition: String): Int {
-        return when {
-            condition.contains("rain") -> {
+        return when (condition){
+            Weather.Rain.toString()  -> {
                 R.color.color_rainy
             }
-            condition.contains("cloud") -> {
+            Weather.Cloud.toString()  -> {
                 R.color.color_cloudy
             }
-            condition.contains("sun") -> {
+            Weather.Sun.toString()  -> {
                 R.color.color_sunny
             }
             else -> {
