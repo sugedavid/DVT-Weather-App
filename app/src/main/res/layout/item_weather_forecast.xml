@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Wednesday"
-        tools:textColor="@color/black"/>
+        tools:textColor="@color/black" />
 
 <!--        Weather icon-->
     <ImageView

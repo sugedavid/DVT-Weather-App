@@ -18,6 +18,9 @@ class FavouritesAdapter(
 ) :
     RecyclerView.Adapter<FavouritesAdapter.MyViewHolder>() {
 
+    var filteredLocations = cities.filter { it.isFavourite }
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView: View =
             LayoutInflater.from(context).inflate(R.layout.item_favourite_location, parent, false)
@@ -27,16 +30,16 @@ class FavouritesAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         // location name
-        holder.txtLocationName.text = cities[position].cityName
+        holder.txtLocationName.text = filteredLocations[position].cityName
         holder.txtLocationName.setOnClickListener {
-            Common().saveLocationID(context, cities[position].id)
+            Common().saveLocationID(context, filteredLocations[position].id)
             val action = FavouritesFragmentDirections.actionFavouritesFragmentToHomeFragment()
             holder.itemView.findNavController().navigate(action)
         }
     }
 
     override fun getItemCount(): Int {
-        return cities.filter { it.isFavourite }.size
+        return filteredLocations.size
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

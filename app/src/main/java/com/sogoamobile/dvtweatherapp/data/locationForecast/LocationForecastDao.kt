@@ -7,15 +7,15 @@ import androidx.room.*
 interface LocationForecastDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addCityForecast(locationForecastTable: LocationForecastTable)
+    fun addLocationForecast(locationForecastTable: LocationForecastTable)
 
     @Update
-    fun updateCityForecast(locationForecastTable: LocationForecastTable)
+    fun updateLocationForecast(locationForecastTable: LocationForecastTable)
 
     @Query("SELECT * FROM city_forecast_table ORDER BY id ASC")
-    fun readCityForecast(): LiveData<List<LocationForecastTable>>
+    fun readLocationForecast(): LiveData<List<LocationForecastTable>>
 
     @Query("SELECT * from city_forecast_table WHERE id = :id")
-    fun getCityForecast(id: Int): LiveData<LocationForecastTable>
+    fun getLocationForecast(id: Int): LiveData<LocationForecastTable>
 
 }

@@ -254,6 +254,12 @@ class HomeFragment : Fragment() {
             }
 
         }
+
+        // favourite city
+        binding.layoutHomeAppbar.imgRefresh.setOnClickListener {
+            locationViewModel.getCurrentWeatherInformation(requireContext())
+            locationViewModel.getForecastWeatherInformation(requireContext())
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

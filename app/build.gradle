@@ -25,8 +25,14 @@ android {
         multiDexEnabled = true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+//        buildConfigField ("String", "OPEN_WEATHER_API_KEY", getOpenWeatherApiKey())
+//        buildConfigField ("String", "PLACES_API_KEY", getPlacesApiKey())
+//        manifestPlaceholders["PLACES_API_KEY"] = getPlacesApiKey()
+
     }
 
+    // test coverage
     task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
 
         reports {
@@ -47,12 +53,11 @@ android {
     }
 
     testOptions {
-        unitTests.all {
-            jacoco {
-                includeNoLocationClasses = true
-            }
+        unitTests {
+            includeAndroidResources = true
+            unitTests.returnDefaultValues = true
+            animationsDisabled = true
         }
-        unitTests.returnDefaultValues = true
     }
 
     buildTypes {
@@ -86,9 +91,12 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.gms:play-services-location:20.0.0'
     implementation 'androidx.test.espresso:espresso-contrib:3.4.0'
+    debugImplementation 'androidx.fragment:fragment-testing:1.5.3'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test:core-ktx:1.4.0'
+    androidTestImplementation 'androidx.navigation:navigation-testing:2.5.2'
 
     // Google Places
     implementation 'com.google.android.libraries.places:places:2.6.0'
@@ -134,7 +142,25 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$work_version"
     androidTestImplementation "androidx.work:work-testing:$work_version"
 
+    // testing
+    androidTestImplementation "io.mockk:mockk-android:1.11.0"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0"
+    androidTestImplementation "io.insert-koin:koin-test-junit4:3.0.2"
 }
+
+//String getOpenWeatherApiKey() {
+//    def propFile = rootProject.file("./local.properties")
+//    def properties = new Properties()
+//    properties.load(new FileInputStream(propFile))
+//    return properties['OPEN_WEATHER_API_KEY']
+//}
+//
+//String getPlacesApiKey() {
+//    def propFile = rootProject.file("./local.properties")
+//    def properties = new Properties()
+//    properties.load(new FileInputStream(propFile))
+//    return properties['PLACES_API_KEY']
+//}
 
 configurations.all{
     resolutionStrategy {

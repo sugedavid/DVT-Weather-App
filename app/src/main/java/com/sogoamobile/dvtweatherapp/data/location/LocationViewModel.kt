@@ -18,6 +18,7 @@ import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.sogoamobile.dvtweatherapp.R
 import com.sogoamobile.dvtweatherapp.common.Common
@@ -80,7 +81,7 @@ class LocationViewModel(application: Application) : ViewModel() {
         _mService = _retrofit?.create(IOpenWeatherMap::class.java)
         repository = LocationRepository(_locationDao)
         readAllData = repository.readAllData
-        _readLocationForecast = _locationForecastDao.readCityForecast()
+        _readLocationForecast = _locationForecastDao.readLocationForecast()
         readLocationForecast = _readLocationForecast
     }
 
@@ -102,7 +103,7 @@ class LocationViewModel(application: Application) : ViewModel() {
 
     fun addLocationForecast(locationForecastTable: LocationForecastTable) {
         viewModelScope.launch(Dispatchers.IO) {
-            _locationForecastDao.addCityForecast(locationForecastTable)
+            _locationForecastDao.addLocationForecast(locationForecastTable)
         }
     }
 
@@ -256,6 +257,7 @@ class LocationViewModel(application: Application) : ViewModel() {
                             ) != PackageManager.PERMISSION_GRANTED
                         ) {
                             _isPermissionAccepted.value = false
+                            checkLocationPermission(activity)
                             return
                         }
 
@@ -279,6 +281,7 @@ class LocationViewModel(application: Application) : ViewModel() {
                     permissions: List<PermissionRequest>,
                     token: PermissionToken
                 ) {
+                    token.continuePermissionRequest()
                     Snackbar.make(
                         activity.findViewById(android.R.id.content),
                         activity.getString(R.string.permission_denied),
