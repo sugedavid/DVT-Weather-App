@@ -8,6 +8,6 @@ data class LocationForecastTable (
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val day: Long,
-    val imageIcon: String,
+    val main: String,
     val temperature: Int,
     )

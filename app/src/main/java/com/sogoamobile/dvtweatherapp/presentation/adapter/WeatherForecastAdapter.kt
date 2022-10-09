@@ -27,11 +27,7 @@ class WeatherForecastAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         //Load weather icon
-        Picasso.get().load(
-            StringBuilder(Common().imageUrl)
-                .append(weatherForecastResult[position].imageIcon)
-                .append(".png").toString()
-        ).into(holder.imgWeather)
+        holder.imgWeather.setBackgroundResource(Common().changeWeatherImage(weatherForecastResult[position].main))
         val time: String? = weatherForecastResult[position].day.let {
             Common().convertUnixToDay(
                 it

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +17,11 @@ import com.sogoamobile.dvtweatherapp.presentation.adapter.FavouritesAdapter
 class FavouritesFragment : Fragment() {
 
     // view model
-    private lateinit var locationViewModel: LocationViewModel
+    private val locationViewModel: LocationViewModel by viewModels{
+        LocationViewModel.LocationViewModelFactory(
+            activity?.application!!
+        )
+    }
 
     // view binding
     private var _binding: FragmentFavouritesBinding? = null
@@ -37,8 +42,7 @@ class FavouritesFragment : Fragment() {
         _binding = FragmentFavouritesBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        // cities view model
-        locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
+        // location view model
         locationViewModel.readAllData.observe(this.viewLifecycleOwner) { city ->
 
             // check if db has forecast weather info

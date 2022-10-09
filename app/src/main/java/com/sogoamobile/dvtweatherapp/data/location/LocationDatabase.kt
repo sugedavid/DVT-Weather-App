@@ -14,8 +14,8 @@ import com.sogoamobile.dvtweatherapp.data.locationForecast.LocationForecastTable
 )
 abstract class LocationDatabase : RoomDatabase() {
 
-    abstract fun citiesDao(): LocationDao
-    abstract fun cityForecastDao(): LocationForecastDao
+    abstract fun locationDao(): LocationDao
+    abstract fun locationForecastDao(): LocationForecastDao
 
     companion object {
         @Volatile
