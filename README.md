@@ -4,7 +4,7 @@ An Android (Kotlin) project.
 
 ## Getting Started
 
-- Before running the project, [add your Google Maps/ Places & Open WeatherAPI keys here](app/src/main/res/values/secrets.xml)
+- Before running the project, add your Google Maps/ Places & Open WeatherAPI keys [here](app/src/main/res/values/secrets.xml)
 
 -------------------
 
