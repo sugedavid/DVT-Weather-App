@@ -8,6 +8,16 @@ An Android (Kotlin) project.
 
 - Before running the project, add your Google Maps/ Places API & Open Weather API keys [here](app/src/main/res/values/secrets.xml)
 
+### Tools
+
+1. Android Jetpack:
+   - Architechure Components
+   - Navigation Components
+   - Room Database
+   - Work Manager (fetch weather information every 1 hr)
+   
+2. Retrofit (HTTP client)
+
 -------------------
 
 ## Screenshots
