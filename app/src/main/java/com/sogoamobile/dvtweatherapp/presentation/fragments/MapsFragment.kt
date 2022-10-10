@@ -1,6 +1,7 @@
 package com.sogoamobile.dvtweatherapp.presentation.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,6 +66,17 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             // check if db has forecast weather info
             if ((location.isNotEmpty() && !location.none { it.isFavourite })) {
 
+                // loop through data & add markers
+                for (item in location) {
+                    Log.d("map_data", item.cityName)
+                    googleMap.addMarker(
+                        MarkerOptions()
+                            .position(LatLng(item.latitude.toDouble(), item.longitude.toDouble()))
+                            .title("${item.cityName}")
+                    )
+
+                }
+
                 // animate to first favourite item
                 val coordinate = LatLng(
                     location[0].latitude.toDouble(),
@@ -75,15 +87,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                     coordinate, 3f
                 )
                 googleMap.moveCamera(locationAnimate)
-                // loop through data & add markers
-                for (item in location) {
-                    googleMap.addMarker(
-                        MarkerOptions()
-                            .position(LatLng(item.latitude.toDouble(), item.longitude.toDouble()))
-                            .title("${item.cityName}")
-                    )
 
-                }
             }
         }
     }
