@@ -151,6 +151,7 @@ class HomeFragment : Fragment() {
                                 city.id,
                                 city.cityName,
                                 city.description,
+                                city.main,
                                 city.temperature,
                                 city.temperatureMin,
                                 city.temperatureMax,
@@ -187,7 +188,7 @@ class HomeFragment : Fragment() {
 
     // updates the ui with data from db
     private fun updateViews(
-        cityID: Int, cityName: String, description: String, temperature: Int, temperatureMin: Int,
+        cityID: Int, cityName: String, description: String, main: String, temperature: Int, temperatureMin: Int,
         temperatureMax: Int, refreshTime: Long, isFavourite: Boolean
     ) {
 
@@ -208,16 +209,23 @@ class HomeFragment : Fragment() {
             getString(R.string.last_refresh, Common().convertUnixToHour(refreshTime))
         // change background image
         binding.imgBg1.setBackgroundResource(
-            Common().changeBackgroundImage(description)
+            Common().changeBackgroundImage(main)
         )
         // change background color
         binding.constraintLayout.setBackgroundResource(
-            Common().changeBackgroundColor(description)
+            Common().changeBackgroundColor(main)
         )
         binding.navView.constraint_nav_header?.setBackgroundResource(
-            Common().changeBackgroundColor(description)
+            Common().changeBackgroundColor(main)
         )
-        // favourite city
+
+        // refresh location
+        binding.layoutHomeAppbar.imgRefresh.setOnClickListener {
+            locationViewModel.getCurrentWeatherInformation(requireContext())
+            locationViewModel.getForecastWeatherInformation(requireContext())
+        }
+
+        // favourite location
         binding.layoutHomeAppbar.imgWeatherFav.setImageResource(
             when {
                 isFavourite -> {
@@ -237,6 +245,7 @@ class HomeFragment : Fragment() {
                         cityName = cityName,
                         description = description,
                         refreshTime = refreshTime,
+                        main = main,
                         temperature = temperature,
                         temperatureMin = temperatureMin,
                         temperatureMax = temperatureMax,
