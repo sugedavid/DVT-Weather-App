@@ -10,7 +10,7 @@ An Android (Kotlin) project.
 
 -------------------
 
-## Getting Started
+## Screenshots
 
 ### Home
 
