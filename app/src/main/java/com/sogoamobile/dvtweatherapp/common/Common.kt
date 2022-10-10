@@ -10,7 +10,7 @@ class Common {
     val baseUrl = "https://api.openweathermap.org/data/2.5/"
 
     enum class Weather {
-        Sun, Cloud, Rain
+        Sun, Cloud, Rain, Clear
     }
 
     fun convertUnixToDate(dt: Long): String? {
@@ -42,6 +42,9 @@ class Common {
             Weather.Sun.toString()  -> {
                 R.drawable.weather_clear
             }
+            Weather.Clear.toString()  -> {
+                R.drawable.weather_clear
+            }
             else -> {
                 R.drawable.weather_partlysunny
             }
@@ -59,6 +62,9 @@ class Common {
             Weather.Sun.toString()  -> {
                 R.drawable.forest_sunny
             }
+            Weather.Clear.toString()  -> {
+                R.drawable.forest_sunny
+            }
             else -> {
                 R.drawable.forest_cloudy
             }
@@ -74,6 +80,9 @@ class Common {
                 R.color.color_cloudy
             }
             Weather.Sun.toString()  -> {
+                R.color.color_sunny
+            }
+            Weather.Clear.toString()  -> {
                 R.color.color_sunny
             }
             else -> {
