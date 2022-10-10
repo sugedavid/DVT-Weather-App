@@ -20,6 +20,7 @@ An Android (Kotlin) project.
    
 2. [Retrofit - HTTP client](https://square.github.io/retrofit/)
 3. [Code Coverage](https://docs.codecov.com/docs/about-code-coverage)
+4. [Github Actions - CI/CD](https://docs.github.com/en/actions)
 
 -------------------
 
