@@ -1,10 +1,8 @@
 package com.sogoamobile.dvtweatherapp.presentation.fragments
 
 import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,7 +47,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     // view models
-    private val locationViewModel: LocationViewModel by viewModels{
+    private val locationViewModel: LocationViewModel by viewModels {
         LocationViewModel.LocationViewModelFactory(
             activity?.application!!
         )
@@ -126,10 +124,10 @@ class HomeFragment : Fragment() {
 
         // loading state
         locationViewModel.isLoading.observe(this.viewLifecycleOwner) {
-            if(it){
+            if (it) {
                 binding.loadingF.visibility = View.VISIBLE
                 binding.view.visibility = View.INVISIBLE
-            }else{
+            } else {
                 binding.loadingF.visibility = View.GONE
                 binding.view.visibility = View.VISIBLE
             }
@@ -143,7 +141,7 @@ class HomeFragment : Fragment() {
                 if (cities.isEmpty() && isPermissionAccepted) {
                     // fetch current weather
                     locationViewModel.getCurrentWeatherInformation(requireContext())
-                } else if(cities.isNotEmpty() && isPermissionAccepted) {
+                } else if (cities.isNotEmpty() && isPermissionAccepted) {
                     // display current weather info from db
                     locationViewModel.getLocation(Common().getLocationID(requireContext()))
                         .observe(this.viewLifecycleOwner) { city ->
@@ -169,7 +167,7 @@ class HomeFragment : Fragment() {
 
             locationViewModel.isPermissionAccepted.observe(this.viewLifecycleOwner) { isPermissionAccepted ->
 
-                 // check if db has forecast weather info & permissions are accepted
+                // check if db has forecast weather info & permissions are accepted
                 if (cityForecast.isEmpty() && isPermissionAccepted) {
                     //  fetch 5 day forecast
                     locationViewModel.getForecastWeatherInformation(requireContext())
@@ -188,8 +186,15 @@ class HomeFragment : Fragment() {
 
     // updates the ui with data from db
     private fun updateViews(
-        cityID: Int, cityName: String, description: String, main: String, temperature: Int, temperatureMin: Int,
-        temperatureMax: Int, refreshTime: Long, isFavourite: Boolean
+        cityID: Int,
+        cityName: String,
+        description: String,
+        main: String,
+        temperature: Int,
+        temperatureMin: Int,
+        temperatureMax: Int,
+        refreshTime: Long,
+        isFavourite: Boolean
     ) {
 
         Common().saveCondition(requireContext(), description)
@@ -198,12 +203,12 @@ class HomeFragment : Fragment() {
         // weather description
         binding.txtWeatherDesc.text = description
         // current temperature
-        binding.txtTemp.text = "$temperature °"
-        binding.txtTempCurrent.text = "$temperature °\nCurrent"
+        binding.txtTemp.text = getString(R.string.temp, temperature)
+        binding.txtTempCurrent.text = getString(R.string.temp_current, temperature)
         // min temperature
-        binding.txtTempMin.text = "$temperatureMin °\nmin"
+        binding.txtTempMin.text = getString(R.string.temp_min, temperatureMin)
         // max temperature
-        binding.txtTempMax.text = "$temperatureMax °\nmax"
+        binding.txtTempMax.text = getString(R.string.temp_max, temperatureMax)
         //date
         binding.txtDateTime.text =
             getString(R.string.last_refresh, Common().convertUnixToHour(refreshTime))

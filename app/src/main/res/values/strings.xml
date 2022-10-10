@@ -16,5 +16,10 @@
     <string name="no_favourites">You have no favourites</string>
     <string name="loading_message">fetching weather info, this might take a minute…</string>
 
+    <!--    home-->
+    <string name="temp">%1$d°</string>
+    <string name="temp_current">%1$d°\nCurrent</string>
+    <string name="temp_min">%1$d°\nmin</string>
+    <string name="temp_max">%1$d°\nmax</string>
 
 </resources>
