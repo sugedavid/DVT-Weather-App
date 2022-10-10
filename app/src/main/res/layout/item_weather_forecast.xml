@@ -15,6 +15,7 @@
         android:id="@+id/txt_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_sans"
         android:gravity="start"
         android:textColor="@color/white"
         android:textSize="18sp"
@@ -22,7 +23,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Wednesday"
-        tools:textColor="@color/black"/>
+        tools:textColor="@color/black" />
 
 <!--        Weather icon-->
     <ImageView
