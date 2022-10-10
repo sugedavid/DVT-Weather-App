@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class Common {
-    val apiKey = R.string.apiKey
+    val apiKey = R.string.open_weather_apiKey
     val baseUrl = "https://api.openweathermap.org/data/2.5/"
 
     enum class Weather {
@@ -60,7 +60,7 @@ class Common {
                 R.drawable.forest_sunny
             }
             else -> {
-                R.drawable.forest_sunny
+                R.drawable.forest_cloudy
             }
         }
     }
@@ -77,7 +77,7 @@ class Common {
                 R.color.color_sunny
             }
             else -> {
-                R.color.color_sunny
+                R.color.color_cloudy
             }
         }
     }

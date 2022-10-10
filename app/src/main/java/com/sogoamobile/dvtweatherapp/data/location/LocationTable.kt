@@ -9,6 +9,7 @@ data class LocationTable (
     val id: Int,
     val cityName: String,
     val description: String,
+    val main: String,
     val refreshTime: Long,
     val temperature: Int,
     val temperatureMin: Int,

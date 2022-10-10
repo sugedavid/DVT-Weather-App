@@ -59,6 +59,7 @@ class FetchWeatherWorker(ctx: Context, params: WorkerParameters) : CoroutineWork
                             val cityId = weatherResult?.id ?: 0
                             val cityName = weatherResult?.name ?: ""
                             val description = weatherResult?.weather?.get(0)?.description ?: ""
+                            val main = weatherResult?.weather?.get(0)?.main ?: ""
                             val refreshTime = weatherResult?.dt!!.toLong()
                             val temperature = weatherResult.main?.temp?.toInt() ?: 0
                             val temperatureMin = weatherResult.main?.temp_min?.toInt() ?: 0
@@ -70,6 +71,7 @@ class FetchWeatherWorker(ctx: Context, params: WorkerParameters) : CoroutineWork
                                     id = cityId,
                                     cityName = cityName,
                                     description = description,
+                                    main = main,
                                     refreshTime = refreshTime,
                                     temperature = temperature,
                                     temperatureMin = temperatureMin,

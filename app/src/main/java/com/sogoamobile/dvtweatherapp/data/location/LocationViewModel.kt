@@ -52,6 +52,7 @@ class LocationViewModel(application: Application) : ViewModel() {
     private var cityId = 0
     private var cityName = ""
     private var description = ""
+    private var main = ""
     private var refreshTime: Long = 0
     private var temperature: Int = 0
     private var temperatureMax: Int = 0
@@ -80,7 +81,7 @@ class LocationViewModel(application: Application) : ViewModel() {
         _mService = _retrofit?.create(IOpenWeatherMap::class.java)
         repository = LocationRepository(_locationDao)
         readAllData = repository.readAllData
-        _readLocationForecast = _locationForecastDao.readCityForecast()
+        _readLocationForecast = _locationForecastDao.readLocationForecast()
         readLocationForecast = _readLocationForecast
     }
 
@@ -102,7 +103,7 @@ class LocationViewModel(application: Application) : ViewModel() {
 
     fun addLocationForecast(locationForecastTable: LocationForecastTable) {
         viewModelScope.launch(Dispatchers.IO) {
-            _locationForecastDao.addCityForecast(locationForecastTable)
+            _locationForecastDao.addLocationForecast(locationForecastTable)
         }
     }
 
@@ -122,6 +123,7 @@ class LocationViewModel(application: Application) : ViewModel() {
                         cityId = weatherResult?.id ?: 0
                         cityName = weatherResult?.name ?: ""
                         description = weatherResult?.weather?.get(0)?.description ?: ""
+                        main = weatherResult?.weather?.get(0)?.main ?: ""
                         refreshTime = weatherResult?.dt!!.toLong()
                         temperature = weatherResult.main?.temp?.toInt() ?: 0
                         temperatureMin = weatherResult.main?.temp_min?.toInt() ?: 0
@@ -133,6 +135,7 @@ class LocationViewModel(application: Application) : ViewModel() {
                                 id = cityId,
                                 cityName = cityName,
                                 description = description,
+                                main = main,
                                 refreshTime = refreshTime,
                                 temperature = temperature,
                                 temperatureMin = temperatureMin,
@@ -279,6 +282,7 @@ class LocationViewModel(application: Application) : ViewModel() {
                     permissions: List<PermissionRequest>,
                     token: PermissionToken
                 ) {
+                    token.continuePermissionRequest()
                     Snackbar.make(
                         activity.findViewById(android.R.id.content),
                         activity.getString(R.string.permission_denied),
