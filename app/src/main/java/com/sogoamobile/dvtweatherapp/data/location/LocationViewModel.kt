@@ -180,7 +180,9 @@ class LocationViewModel(application: Application) : ViewModel() {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ weatherForecastResult ->
 
+
                         for (result in weatherForecastResult?.list!!) {
+                            val forecastId = result.weather?.get(0)?.id ?: 0
                             val main = result.weather?.get(0)?.main ?: ""
                             val forecastDay = result.dt
                             val forecastTemperature = result.main?.temp?.toInt() ?: 0
@@ -188,7 +190,7 @@ class LocationViewModel(application: Application) : ViewModel() {
                             // save weatherForecastResult to db
                             addLocationForecast(
                                 LocationForecastTable(
-                                    id = 0, day = forecastDay, main = main,
+                                    id = forecastId, day = forecastDay, main = main,
                                     temperature = forecastTemperature
                                 )
                             )
