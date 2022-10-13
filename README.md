@@ -28,7 +28,7 @@ An Android (Kotlin) project.
 
 ### Home
 
-![home](https://user-images.githubusercontent.com/63927686/194921002-199510cf-4071-470f-a633-94c006faf2c7.png)
+![home](https://user-images.githubusercontent.com/63927686/195557050-85e327ef-9d6b-408a-b64b-62bfb1f9f815.png)
 
 ### Search
 
@@ -44,5 +44,5 @@ An Android (Kotlin) project.
 
 ### Map
 
-![map](https://user-images.githubusercontent.com/63927686/194921157-750a7ed6-4481-462a-8ec7-e2abf2fb2a19.png)
+![map](https://user-images.githubusercontent.com/63927686/195557106-78792115-2e79-48c0-8212-af63839f8cec.png)
 
